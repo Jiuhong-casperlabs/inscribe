@@ -1,40 +1,47 @@
-# Casper Fungible Tokens (CEP-18 Standard)
+## mimic inscribe with csprs
 
-This repository contains a reference contract implementation and tests for fungible tokens on a Casper network, following the [CEP-18 standard](https://github.com/casper-network/ceps/pull/18).
-
-## Preparation
-
-Install the `wasm32-unknown-unknown` Rust target with the following command.
+### install contract
 
 ```
-make prepare
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-path target/wasm32-unknown-unknown/release/cep18.wasm \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
 ```
 
-## Building and Testing the Contract
-
-To build the reference fungible token contract and supporting tests, run this command:
+### deploy
 
 ```
-make test
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-hash e283c070b28250542756463d196807fcfaef2b9670be1f86105b847782984f74 \
+--session-entry-point inscribe \
+--session-arg "message:string='{\"p\":\"cbrc-20\",\"op\":\"deploy\",\"tick\":\"csprs\",\"max\":\"21000000\",\"lim\":\"1000\",\"decimals\":\"18\"}'" \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
 ```
 
-## Locating the Contract Wasm
-
-Find the Wasm for the contract in the following directory:
+### mint
 
 ```
-casper/cep18/target/wasm32-unknown-unknown/release/cep18.wasm
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-hash e283c070b28250542756463d196807fcfaef2b9670be1f86105b847782984f74 \
+--session-entry-point inscribe \
+--session-arg "message:string='{\"p\":\"cbrc-20\",\"op\":\"mint\",\"tick\":\"csprs\",\"amt\":\"100\"}'" \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
 ```
 
-## A JavaScript Client SDK
+### transfer
 
-A [JavaScript client SDK](https://github.com/casper-ecosystem/cep18/tree/master/client-js#readme) has been provided to interact with the fungible token contract.
-
-## Tutorials
-
-For more information, visit the links below:
-
-- [Casper Fungible Token Tutorial](/docs/full-tutorial.md) - An illustrated guide on how to implement, deploy, and test an fungible token contract.
-- [Casper Fungible Token How-To Guide](/docs/1-quickstart-guide.md) - An example driven quick start guide for launching a CEP-18 token on a Casper network using the Casper CLI client.
-- [Exploring the CEP18 Contracts](/docs/2-query.md) - A guide for finding the necessary values to interact with a CEP-18 instance after installation in global state.
-- [CEP-18 Token Transfers and Allowances](/docs/3-transfer.md) - A guide to transferring CEP-18 tokens and approving allowances.
+```
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-hash e283c070b28250542756463d196807fcfaef2b9670be1f86105b847782984f74 \
+--session-entry-point inscribe \
+--session-arg "message:string='{\"p\":\"cbrc-20\",\"op\":\"transfer\",\"tick\":\"csprs\",\"amt\":\"2100\",\"to\":\"020226b20c27c32caeda0849a8ff57d6f2836b2f642e8a81f8c3c95080189b8d213f\"}'" \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
+```
