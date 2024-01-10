@@ -1,0 +1,68 @@
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-path target/wasm32-unknown-unknown/release/cep18.wasm \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
+
+casper-client get-deploy -n http://localhost:11101 \
+e5ea237ceb8deb1aa72cc0e10d2fbba774bbdf8f3e631de8e88e712e3958f8ad
+
+                {
+                  "key": "hash-e283c070b28250542756463d196807fcfaef2b9670be1f86105b847782984f74",
+                  "transform": "WriteContract"
+                },
+                {
+                  "key": "hash-6fef4d875647ad175f2feaa98fe601da41e7d930cd7c1ada87861d5485610b40",
+                  "transform": "WriteContractPackage"
+                },
+
+================
+    # //     "p": "cbrc-20",
+    # //     "op": "deploy",
+    # //     "tick": "demo",
+    # //     "max": "21000000",
+    # //     "lim": "1000"
+    # //     "decimals":"18"
+
+# //deploy
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-hash e283c070b28250542756463d196807fcfaef2b9670be1f86105b847782984f74 \
+--session-entry-point inscribe \
+--session-arg "message:string='{\"p\":\"cbrc-20\",\"op\":\"deploy\",\"tick\":\"csprs\",\"max\":\"21000000\",\"lim\":\"1000\",\"decimals\":\"18\"}'" \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
+
+casper-client get-deploy -n http://localhost:11101 \
+c59a05eab2ca9b8c53377fa16a1826b8d9793f95a81cb117802ffae0d71a299c
+
+# mint
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-hash e283c070b28250542756463d196807fcfaef2b9670be1f86105b847782984f74 \
+--session-entry-point inscribe \
+--session-arg "message:string='{\"p\":\"cbrc-20\",\"op\":\"mint\",\"tick\":\"csprs\",\"amt\":\"100\"}'" \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
+
+casper-client get-deploy -n http://localhost:11101 \
+ee50014ac73afff45225403d2af916e207af39bf6f01298485bf029c84ea0b33
+
+# transfer
+    # // {
+    # //     "p": "cbrc-20",
+    # //     "op": "transfer",
+    # //     "tick": "demo",
+    # //     "amt": "100"
+    # //     "to": "{A valid Casper Network public key}"
+    # //   }
+casper-client put-deploy --chain-name casper-net-1 \
+-n http://localhost:11101/rpc \
+--session-hash e283c070b28250542756463d196807fcfaef2b9670be1f86105b847782984f74 \
+--session-entry-point inscribe \
+--session-arg "message:string='{\"p\":\"cbrc-20\",\"op\":\"transfer\",\"tick\":\"csprs\",\"amt\":\"2100\",\"to\":\"020226b20c27c32caeda0849a8ff57d6f2836b2f642e8a81f8c3c95080189b8d213f\"}'" \
+--secret-key /home/jh/casper-node/utils/nctl/assets/net-1/users/user-2/secret_key.pem \
+--payment-amount 1000000000000
+
+casper-client get-deploy -n http://localhost:11101 \
+556062a9b80b4814fe0599f8d645c95347e8e1bbef5b0925438750f39efb0e57
